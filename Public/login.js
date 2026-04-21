@@ -3,7 +3,7 @@ async function login() {
   const password = document.getElementById("password").value;
   const msg = document.getElementById("msg");
 
-  const res = await fetch("http://localhost:5000/auth/login", {
+   const res = await fetch("/auth/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"

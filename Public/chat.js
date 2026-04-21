@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:5000/chat";
+const API_URL = "/chat";
 const TOKEN = localStorage.getItem("token");
 
 if (!TOKEN) {
