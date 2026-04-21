@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const path = require("path");
 require("dotenv").config();
 
 const authRoutes = require("./routes/authRoutes");
@@ -8,22 +9,28 @@ const chatRoutes = require("./routes/chatRoutes");
 
 const app = express();
 
-// Middleware
+/* ---------------- MIDDLEWARE ---------------- */
 app.use(cors());
 app.use(express.json());
-const path = require("path");
+
+/* ✅ IMPORTANT: FIX STATIC FILE SERVING */
 app.use(express.static(path.join(__dirname, "public")));
 
-// Routes
+/* ---------------- ROUTES ---------------- */
 app.use("/auth", authRoutes);
 app.use("/chat", chatRoutes);
 
-// MongoDB Connection
+/* ---------------- HOME ROUTE FIX ---------------- */
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "login.html"));
+});
+
+/* ---------------- DATABASE ---------------- */
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("✅ MongoDB Connected"))
   .catch(err => console.log("❌ DB Error:", err));
 
-// IMPORTANT: use dynamic port for deployment
+/* ---------------- SERVER ---------------- */
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
